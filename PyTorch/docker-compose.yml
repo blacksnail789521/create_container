@@ -9,8 +9,8 @@ services:
     image: "jason/jason-pt:${NGC_IMAGE_VERSION}"
     ipc: host
     network_mode: bridge
-    ports:
-      - "${PORT}:22"
+    # ports:
+    #   - "${PORT}${TAG}:22"
     volumes:
       - /home/blacksnail789521:/workspace
     deploy:
