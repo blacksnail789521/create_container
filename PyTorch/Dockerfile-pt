@@ -1,0 +1,21 @@
+ARG NGC_IMAGE_VERSION
+FROM nvcr.io/nvidia/pytorch:${NGC_IMAGE_VERSION}-py3
+
+# set ssh
+RUN apt-get update
+RUN apt install openssh-server -y
+RUN echo 'root:arch1234' | chpasswd
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+# install required packages
+RUN pip install -q loguru spyder-kernels pandas matplotlib
+
+# set working dir
+WORKDIR /workspace
+
+# add script and run it
+ADD ./scripts_for_docker/ssh_with_spyder_kernel.sh /
+RUN chmod 755 /ssh_with_spyder_kernel.sh
+ADD ./scripts_for_docker/create_spyder_kernel.sh /
+RUN chmod 755 /create_spyder_kernel.sh
+CMD /ssh_with_spyder_kernel.sh

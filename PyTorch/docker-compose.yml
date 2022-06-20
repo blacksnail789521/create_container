@@ -1,0 +1,20 @@
+version: '3'
+services:
+  jason-pt:
+    build:
+      context: .
+      dockerfile: Dockerfile-pt
+      args:
+        - NGC_IMAGE_VERSION=${NGC_IMAGE_VERSION}
+    image: "jason/jason-pt:${NGC_IMAGE_VERSION}"
+    ipc: host
+    network_mode: bridge
+    ports:
+      - "${PORT}:22"
+    volumes:
+      - /home/blacksnail789521:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
